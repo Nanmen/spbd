@@ -42,9 +42,18 @@ public class OrderController {
 		return orderService.getOrder(id);
 	}
 	
-	@RequestMapping(value="order",method=RequestMethod.GET)
+	@RequestMapping(value="/order",method=RequestMethod.GET)
 	public Object getOrderList(){
 		return orderService.getOrderList();
 	}
 	
+	
+	@RequestMapping(value="/order/{id}",method=RequestMethod.DELETE)
+	public Object deleteOrder(@PathVariable("id")Integer id){
+		int result = orderService.deleteOrder(id);
+		if(result > 0){
+			return "删除成功";
+		}
+		return "删除失败";
+	}
 }
