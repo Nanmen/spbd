@@ -7,22 +7,13 @@
     <artifactId>spbd</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>spbd-order</artifactId>
-  <name>spbd-order</name>
+  <artifactId>spbd-wsapi</artifactId>
+  <name>spbd-wsapi</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-    <dependency>
-		<groupId>com.spbd</groupId>
-		<artifactId>spbd-core</artifactId>
-		<version>${project.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.spbd</groupId>
-		<artifactId>spbd-wsapi</artifactId>
-		<version>${project.version}</version>
-	</dependency>
+    
   </dependencies>
 </project>

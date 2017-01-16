@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					http://www.springframework.org/schema/beans/spring-beans.xsd
+    					http://code.alibabatech.com/schema/dubbo
+    					http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+    					http://www.springframework.org/schema/context
+       					http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <dubbo:application name="spbd-user"  />
+    <dubbo:protocol name="dubbo" port="${dubbo.service.port}" />
+    <dubbo:consumer check="false" />
+    <dubbo:provider timeout="30000" retries="1" cluster="failover" async="false"/>
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registerAddress}" check="false"/>
+    <dubbo:annotation package="com.spbd.user" /> 
+	
+    <dubbo:service interface="com.spbd.wsapi.user.IUserService" ref="userWSService"  protocol="dubbo"  cluster="failover"/>
+
+</beans>
