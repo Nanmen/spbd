@@ -19,6 +19,9 @@ public class DynamicTaskConfigurer implements SchedulingConfigurer {
 	
 	private volatile ScheduledTaskRegistrar registrar;
 	
+	private final ConcurrentHashMap<Integer, ScheduledFuture<?>> scheduledFutures = new ConcurrentHashMap<Integer, ScheduledFuture<?>>();
+	private final ConcurrentHashMap<Integer, CronTask> cronTasks = new ConcurrentHashMap<Integer, CronTask>();
+	
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar registrar) {
 		this.registrar = registrar;
@@ -26,25 +29,36 @@ public class DynamicTaskConfigurer implements SchedulingConfigurer {
 	
 	public void refreshTasks(List<TimingTask> tasks){
 		//取消已经删除的策略任务
-		for (TimingTask tt : tasks) {
-			//判断
-			if(hasTask(tt.getTaskId())){
-				DynamicTaskRunable t = new DynamicTaskRunable(tt.getTaskId());
-				String expression = tt.getExpression();
-				CronTask task = new CronTask(t, expression);
-				registrar.addCronTask(task);
+		Set<Integer> sids = scheduledFutures.keySet();
+		for (Integer sid : sids) {
+			if(!exists(tasks, sid)){				
+				scheduledFutures.get(sid).cancel(false);
 			}
+		}
+		for (TimingTask tt : tasks) {
+			DynamicTaskRunable t = new DynamicTaskRunable(tt.getTaskId());
+			String expression = tt.getExpression();
+			if(StringUtils.isEmpty(expression)){
+				continue;
+			}
+			if(scheduledFutures.containsKey(tt.getTaskId()) && cronTasks.get(tt.getTaskId()).getExpression().equals(expression)){
+				continue;
+			}
+			//如果策略执行时间发生了变化，则取消当前策略的任务
+			if(scheduledFutures.containsKey(tt.getTaskId())){
+				scheduledFutures.get(tt.getTaskId()).cancel(false);
+			}
+			CronTask task = new CronTask(t, expression);
+			ScheduledFuture<?> future = registrar.getScheduler().schedule(task.getRunnable(), task.getTrigger());
+			cronTasks.put(tt.getTaskId(), task);
+			scheduledFutures.put(tt.getTaskId(), future);
 		}
 	}
 	
-	private boolean hasTask(Integer taskId){
-		List<CronTask> taskList = registrar.getCronTaskList();
-		for (CronTask cronTask : taskList) {
-			if(cronTask.getRunnable() instanceof DynamicTaskRunable){
-				DynamicTaskRunable r = (DynamicTaskRunable) cronTask.getRunnable();
-				if(r.getTaskId().equals(taskId)){
-					return true;
-				}
+	private boolean exists(List<TimingTask> tasks,Integer tid){
+		for(TimingTask task:tasks){
+			if(task.getTaskId().equals(tid)){
+				return true;
 			}
 		}
 		return false;

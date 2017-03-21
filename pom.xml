@@ -10,6 +10,7 @@
     <module>spbd-order</module>
     <module>spbd-user</module>
     <module>spbd-wsapi</module>
+    <module>spbk-task</module>
   </modules>
   <properties>
   	<springboot.version>1.3.6.RELEASE</springboot.version>
@@ -92,8 +93,8 @@
 					<artifactId>hibernate-validator</artifactId>
 				</exclusion>
 				<exclusion>
-	                <artifactId>spring</artifactId>
 	                <groupId>org.springframework</groupId>
+	                <artifactId>spring</artifactId>
 	            </exclusion>
 			</exclusions>  
 		</dependency> 
