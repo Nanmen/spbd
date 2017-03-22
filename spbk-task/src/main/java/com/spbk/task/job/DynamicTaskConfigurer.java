@@ -47,6 +47,8 @@ public class DynamicTaskConfigurer implements SchedulingConfigurer {
 			//如果策略执行时间发生了变化，则取消当前策略的任务
 			if(scheduledFutures.containsKey(tt.getTaskId())){
 				scheduledFutures.get(tt.getTaskId()).cancel(false);
+				scheduledFutures.remove(tt.getTaskId());
+				cronTasks.remove(tt.getTaskId());
 			}
 			CronTask task = new CronTask(t, expression);
 			ScheduledFuture<?> future = registrar.getScheduler().schedule(task.getRunnable(), task.getTrigger());
