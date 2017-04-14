@@ -1,4 +1,4 @@
-package com.spbk.task.job;
+package com.spbd.task.job;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.spbk.task.model.TimingTask;
+import com.spbd.task.model.TimingTask;
 @Component
 public class DynamicTaskConfigurer implements SchedulingConfigurer {
 	

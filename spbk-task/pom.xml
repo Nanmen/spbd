@@ -8,8 +8,8 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.spbd.task</groupId>
-  <artifactId>spbk-task</artifactId>
-  <name>spbk-task</name>
+  <artifactId>spbd-task</artifactId>
+  <name>spbd-task</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

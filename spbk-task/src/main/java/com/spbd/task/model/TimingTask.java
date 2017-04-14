@@ -1,4 +1,4 @@
-package com.spbk.task.model;
+package com.spbd.task.model;
 
 public class TimingTask {
 	
