@@ -1,8 +1,11 @@
 package com.spbd.order.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +19,14 @@ import com.spbd.wsapi.user.response.UserResponse;
 
 @RestController
 public class OrderController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class); 
 	@Autowired
 	private OrderService orderService;
-	@Reference
+	
+	@Reference(lazy=true)
 	private IUserService iUserService;
+	
 
 	@RequestMapping("/hello")
 	public Object hello(){
@@ -27,7 +34,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/order",method=RequestMethod.POST)
-	public Object addOrder(Order order){
+	public Object addOrder(@RequestBody Order order){
 		int result = orderService.addOrder(order);
 		if(result > 0){
 			return "添加成功";

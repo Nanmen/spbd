@@ -73,4 +73,10 @@ public class Order {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", createTime=" + createTime + ", updateTime=" + updateTime + ", productId="
+				+ productId + ", userId=" + userId + ", amount=" + amount + ", remark=" + remark + "]";
+	}
 }
