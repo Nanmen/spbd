@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ImportResource;
 
 import com.spbd.core.web.filter.AuthFilter;
 
-@ImportResource({"classpath:dubbo/dubbo-config.xml"})
+//@ImportResource({"classpath:dubbo/dubbo-config.xml"})
 @SpringBootApplication
 public class OrderStartup {
 	public static void main( String[] args) {

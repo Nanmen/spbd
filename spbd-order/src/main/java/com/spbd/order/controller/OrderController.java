@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.spbd.core.platform.mq.MQClient;
+import com.spbd.core.platform.mq.MQSendResult;
+import com.spbd.core.platform.mq.MQTopic;
 import com.spbd.order.model.Order;
 import com.spbd.order.service.OrderService;
 import com.spbd.order.vo.OrderVo;
+import com.spbd.wsapi.order.message.OrderPaidSuccessMessage;
 import com.spbd.wsapi.user.IUserService;
 import com.spbd.wsapi.user.response.UserResponse;
 
@@ -24,8 +27,10 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@Reference(lazy=true)
+//	@Reference(lazy=true)
 	private IUserService iUserService;
+	@Autowired
+	private MQClient mqClient;
 	
 
 	@RequestMapping("/hello")
@@ -79,4 +84,12 @@ public class OrderController {
 		}
 		return "删除失败";
 	}
+	
+	
+	@RequestMapping(value="/hello/{id}",method=RequestMethod.GET)
+	public Object hello(@PathVariable("id")Integer id){
+		MQSendResult result = mqClient.sendMessage(MQTopic.ORDER, new OrderPaidSuccessMessage(id));
+		return result;
+	}
+	
 }
