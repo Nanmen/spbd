@@ -10,7 +10,7 @@
     					http://www.springframework.org/schema/context
        					http://www.springframework.org/schema/context/spring-context.xsd">
     
-    <dubbo:application name="spbd-user"  />
+    <dubbo:application name="spbd-task"  />
     <dubbo:protocol name="dubbo" port="${dubbo.service.port}" />
     <dubbo:consumer check="false" />
     <dubbo:provider timeout="30000" retries="1" cluster="failover" async="false"/>
